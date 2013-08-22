@@ -1,5 +1,7 @@
 function html_substring(text, length) {
-	// text = "nfzfnczno";	 
+	var result;
 
-	return text.substring(0, length);
+	result = text.substring(0, length);
+
+	return result;
 }
