@@ -13,8 +13,8 @@ function playTests() {
 	var div = document.getElementById('content');	
 
 	//Launch tests
-	for (test in testArray) { 
-		var result = html_substring(test, length);
+	for (var i=0; i < testArray.length; i++) { 
+		var result = html_substring(testArray[i], length);
 		var text = document.createTextNode(result);
 
 		div.appendChild(text);
