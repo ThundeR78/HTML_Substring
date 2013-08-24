@@ -1,7 +1,13 @@
+    //TODO : test with arrayTags
+    //TODO : fix delete others tags after end
+
 function html_substring(html, count) {
 	//Append html text in a div element to navigate inside a tree elements
     var div = document.createElement('div');
     div.innerHTML = html;
+
+    var result = document.createElement('div');
+
 
     //Display elements tag found
     displayTags(div.getElementsByTagName('*'));
@@ -12,7 +18,7 @@ function html_substring(html, count) {
     //Navigate in element 
 	function read_element(elmt) {
         var node = elmt.firstChild;		//Search first child
-
+	// if (count>0) {
         do {
             if(node.nodeType == 3) {	//Node is Text node
             	console.log('Text = '+node.data);
@@ -20,11 +26,14 @@ function html_substring(html, count) {
                 get_textnode(node);
             } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) {	//Node is Element node & Child nodes exist & First node child exist
         		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
-
+        		// elmt.appendChild(node);
                 read_element(node);
             } else
             	console.log('Nothing inside '+ node.tagName);
-        } while(node = node.nextSibling);	//Until exist next sibling
+
+            console.log(count);
+        } while((node = node.nextSibling));// && count>0);	//Until exist next sibling
+    // }
     }
 
     //Get Text inside element
@@ -36,18 +45,16 @@ function html_substring(html, count) {
 
 			//Subtract length of the text data to the count total
             count -= elmt.data.length;
-            
-            console.log(count);
+            // result.appendChild(elmt);
         } else {
+        	// elmt.parentNode.remove(elmt);
+        	// elmt.parentNode.removeChild(elmt);
             elmt.data = '';
         }
     }
 
-    //TODO : test with arrayTags
-    //TODO : fix delete others tags after end
-
     //Return the content of the div
-    return div.innerHTML;
+    return div.innerHTML;	//result.innerHTML
 }
 
 
@@ -63,3 +70,12 @@ function displayTags (elementsTag) {
     } else 
     	console.log(elementsTag.length+'tag');
 }
+
+
+/*Link help :
+http://help.dottoro.com/ljkuedch.php
+http://www.javascriptkit.com/domref/elementproperties.shtml
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope
+https://developer.mozilla.org/en-US/docs/Web/API/document.getElementsByTagName?redirectlocale=en-US&redirectslug=DOM%2Fdocument.getElementsByTagName
+http://www.javascriptkit.com/domref/nodetype.shtml
+*/
