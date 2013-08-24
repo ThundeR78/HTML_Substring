@@ -5,11 +5,30 @@ html, body {
 	height: 100%;
 }
 header, footer {
-	height: 10%;
+	height: 5%;
 	padding: 0px 20px;
+	color: blue;
+	text-align: center;
 }
 
 #content {
 	height: 80%;
 	padding: 0px 20px;
 }
+
+ul {
+	padding-left: 15px;
+}
+li {
+	list-style: none;
+	font-size: 25px;
+	margin-bottom: 20px;
+}
+
+.label-test {
+	font-weight: bold;
+	text-decoration: underline;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
