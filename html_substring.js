@@ -29,8 +29,22 @@ function html_substring(html, count) {
 
     //Get Text inside element
     function get_textnode(elmt) {
-    	
+		//If can take others characters
+        if(count > 0) {		
+        	//Substring without break specials characters
+			elmt.data = elmt.substringData(0, count);
+
+			//Subtract length of the text data to the count total
+            count -= elmt.data.length;
+            
+            console.log(count);
+        } else {
+            elmt.data = '';
+        }
     }
+
+    //TODO : test with arrayTags
+    //TODO : fix delete others tags after end
 
     //Return the content of the div
     return div.innerHTML;
@@ -49,63 +63,3 @@ function displayTags (elementsTag) {
     } else 
     	console.log(elementsTag.length+'tag');
 }
-
-
-// function html_substring(html, length) {
-// 	var result = '';		//Final text
-// 	var stackTag = [];		//Array with tags
-// 	var lastIndex = 0;		//Last index used
-// 	var cpt = 0;
-
-// 	var tag; 
-// 	// var regex = /<([^>\s]*)[^>]*>/g;
-    
-//     //Append html text in a div element
-//     var div = document.createElement("div");
-// 	div.innerHTML = html;
-// 	//Search every tags on the div
-//     var elementsTag = div.getElementsByTagName('*');
-
-//     //Display elements tag found
-//     displayTags(elementsTag);
-
-//     //Loop until enough characters for each tag
-//     // while ((tag = regex.exec(html)) && length) {
-//     while ((tag = elementsTag[cpt]) && length) {
-//     	console.log(cpt+' : '+tag.tagName);
-// 	    //Get the text substring between the last tag and this one
-// 	    var tmp = html.substring(lastIndex, tag.index).substr(0, length);
-	    
-// 	    //Append to the result
-// 	    result += tmp;
-// 	    //Count the number of characters added
-// 	    // lastIndex = regex.lastIndex;
-// 	    length -= tmp.length;
-
-// 		console.log(length+' : '+tmp);
-
-
-// 	    if (length) {
-// 	        result += tag[0];
-// 	        if (tag[1].indexOf('/') === 0) {
-// 	            //if this is a closing tag, than pop the stack (does not account for bad html)
-// 	            stackTag.pop();
-// 	        } else if (tag[1].lastIndexOf('/') !== tag[1].length - 1) {
-// 	            //if this is not a self closing tag than push it in the stack
-// 	            stackTag.push(tag[1]);
-// 	        }
-// 	    }
-
-// 	    cpt++;
-// 	}
-
-//     //Add the remainder of the string, if needed (there are no more tags in here)
-//     result += html.substr(lastIndex, length);
-
-//     //Fix the unclosed tags
-//     while (stackTag.length) {
-//         result += '</'+ stackTag.pop() +'>';
-//     }
-
-// 	return result;
-// }
