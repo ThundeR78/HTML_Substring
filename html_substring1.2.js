@@ -6,8 +6,7 @@ function html_substring(html, count) {
     var div = document.createElement('div');
     div.innerHTML = html;
 
-    var result = document.createElement('div');
-
+    //var result = document.createElement('div');
 
     //Display elements tag found
     displayTags(div.getElementsByTagName('*'));
@@ -20,18 +19,22 @@ function html_substring(html, count) {
         var node = elmt.firstChild;		//Search first child
 	// if (count>0) {
         do {
+    	//if (count>0) {
             if(node.nodeType == 3) {	//Node is Text node
             	console.log('Text = '+node.data);
 
                 get_textnode(node);
-            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) {	//Node is Element node & Child nodes exist & First node child exist
+            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& count>0	//Node is Element node & Child nodes exist & First node child exist
         		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
-        		// elmt.appendChild(node);
+        		
+                // result.appendChild(elmt);
                 read_element(node);
             } else
             	console.log('Nothing inside '+ node.tagName);
 
-            console.log(count);
+            //console.log(count);
+        //} else
+        //	elmt.removeChild(node);
         } while((node = node.nextSibling));// && count>0);	//Until exist next sibling
     // }
     }
@@ -47,14 +50,15 @@ function html_substring(html, count) {
             count -= elmt.data.length;
             // result.appendChild(elmt);
         } else {
+        	elmt.data = '';
         	// elmt.parentNode.remove(elmt);
         	// elmt.parentNode.removeChild(elmt);
-            elmt.data = '';
         }
     }
 
     //Return the content of the div
-    return div.innerHTML;	//result.innerHTML
+    return div.innerHTML;	
+    // return result.innerHTML
 }
 
 
