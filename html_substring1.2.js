@@ -1,7 +1,7 @@
     //TODO : test with arrayTags
     //TODO : fix delete others tags after end
 
-function html_substring(html, count) {
+function html_substring(html, length) {
 	//Append html text in a div element to navigate inside a tree elements
     var div = document.createElement('div');
     div.innerHTML = html;
@@ -17,14 +17,14 @@ function html_substring(html, count) {
     //Navigate in element 
 	function read_element(elmt) {
         var node = elmt.firstChild;		//Search first child
-	// if (count>0) {
+	// if (length>0) {
         do {
-    	//if (count>0) {
+    	//if (length>0) {
             if(node.nodeType == 3) {	//Node is Text node
             	console.log('Text = '+node.data);
 
                 get_textnode(node);
-            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& count>0	//Node is Element node & Child nodes exist & First node child exist
+            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
         		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
         		
                 // result.appendChild(elmt);
@@ -32,22 +32,22 @@ function html_substring(html, count) {
             } else
             	console.log('Nothing inside '+ node.tagName);
 
-            //console.log(count);
+            //console.log(length);
         //} else
         //	elmt.removeChild(node);
-        } while((node = node.nextSibling));// && count>0);	//Until exist next sibling
+        } while((node = node.nextSibling));// && length>0);	//Until exist next sibling
     // }
     }
 
     //Get Text inside element
     function get_textnode(elmt) {
 		//If can take others characters
-        if(count > 0) {		
+        if(length > 0) {		
         	//Substring without break specials characters
-			elmt.data = elmt.substringData(0, count);
+			elmt.data = elmt.substringData(0, length);
 
-			//Subtract length of the text data to the count total
-            count -= elmt.data.length;
+			//Subtract length of the text data to the length total
+            length -= elmt.data.length;
             // result.appendChild(elmt);
         } else {
         	elmt.data = '';

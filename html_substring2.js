@@ -1,64 +1,113 @@
-    //TODO : test with arrayTags
-    //TODO : fix delete others tags after end
+//Function strip_tags
+        
+function html_substring (html, length) {     
+    // only execute if text is longer than desired length 
+    if(html.length > 0 && length > 0 ) { 
+        var isText = true; 
+        var ret = ""; 
+        var i = 0; 
+        var lastSpacePosition = -1; 
 
-function html_substring(html, count) {
-	//Append html text in a div element to navigate inside a tree elements
-    var div = document.createElement('div');
-    div.innerHTML = html;
+        var tagsArray = []; 
+        var currentTag = ""; 
 
-    var result = document.createElement('div');
-
-    //Display elements tag found
-    displayTags(div.getElementsByTagName('*'));
-
-    //Launch recursive loop (if tags exist) with the div like root element
-    read_element(div);
-
-    //Navigate in element 
-	function read_element(elmt) {
-        var node = elmt.firstChild;		//Search first child
-	// if (count>0) {
-        do {
-    	if (count>0) {
-            if(node.nodeType == 3) {	//Node is Text node
-            	console.log('Text = '+node.data);
-
-                get_textnode(node);
-            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0] && count>0) {	//Node is Element node & Child nodes exist & First node child exist
-        		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
-        		// result.appendChild(elmt);
-                read_element(node);
-            } else
-            	console.log('Nothing inside '+ node.tagName);
-
-            console.log(count);
-        } else
-        	elmt.removeChild(node);
-        } while((node = node.nextSibling));// && count>0);	//Until exist next sibling
-    // }
-    }
-
-    //Get Text inside element
-    function get_textnode(elmt) {
-		//If can take others characters
-        if(count > 0) {		
-        	//Substring without break specials characters
-			elmt.data = elmt.substringData(0, count);
-
-			//Subtract length of the text data to the count total
-            count -= elmt.data.length;
-            // result.appendChild(elmt);
-        } else {
-        	elmt.data = '';
-        	// elmt.parentNode.remove(elmt);
-        	// elmt.parentNode.removeChild(elmt);
+        function strip_tags (input, allowed) {
+            allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+            var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+            return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+                return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+            });
         }
-    }
 
-    //Return the content of the div
-    return div.innerHTML;	
-    // return result.innerHTML
-}
+        //Length html without tags
+        var noTagLength = strip_tags(html).length; 
+        console.log("length="+length+" , noTagLength="+noTagLength);
+
+        // Parser loop 
+        for(var j=0; j < html.length; j++) { 
+            var currentChar = html.substr(j, 1); 
+            ret += currentChar; 
+
+            // Lesser than event 
+            if(currentChar == "<") 
+                isText = false; 
+
+            // Character handler 
+            if(isText) { 
+                // Memorize last space position 
+                if(currentChar == " ") 
+                    lastSpacePosition = j; 
+                else 
+                    lastChar = currentChar; 
+                i++; 
+            } else { 
+                console.log("Tag="+currentTag+" - Char add="+currentChar);
+                currentTag += currentChar; 
+            } 
+            // console.log("Char="+currentChar+" - isText="+isText+" - Tag="+currentTag);
+
+            // Greater than event 
+            if(currentChar == ">") { 
+                isText = true; 
+
+                // Opening tag handler 
+                console.log("< : "+currentTag.indexOf("<")+" - /> : "+currentTag.indexOf("/>")+" - </ : "+currentTag.indexOf("</"));
+                if( (currentTag.indexOf("<") > -1) && 
+                    (currentTag.indexOf("/>") == -1) && 
+                    (currentTag.indexOf("</") == -1) ) { 
+
+                    // Tag has attribute(s) 
+                    if(currentTag.indexOf(" ") > -1) { 
+                        console.log("Tag1 : "+currentTag);
+                        console.log("Tag1 substring= "+currentTag.substr(1, currentTag.indexOf(" ") - 1));
+
+                        currentTag = currentTag.substr(1, currentTag.indexOf(" ") - 1); 
+                    } else { 
+                        console.log("Tag2 : "+currentTag);
+                        console.log("Tag2 substring= "+currentTag.substr(1, currentTag.length-2));
+
+                        // Tag doesn't have attribute(s) 
+                        currentTag = currentTag.substr(1, currentTag.length-2);  //Tout sauf < et >
+                    } 
+
+                    console.log("Push tag : "+currentTag);
+                    tagsArray.push(currentTag); 
+
+                } else if(currentTag.indexOf("</") > -1) { 
+                    console.log("Pop tag : "+ tagsArray.pop());
+                } 
+
+                currentTag = ""; 
+            } 
+
+            if(i >= length) { 
+                break; 
+            } 
+        } 
+
+        // Cut HTML string at last space position 
+        if(length < noTagLength) { 
+            if(lastSpacePosition != -1) { 
+                ret = html.substr(0, lastSpacePosition); 
+            } else { 
+                ret = html.substr(j); 
+            } 
+        } 
+
+        console.log("Nb tags unclosed="+tagsArray.length);
+        // Close broken XHTML elements 
+        while(tagsArray.length > 0) {  
+            ret += "</"+ tagsArray.pop() +">\n"; 
+        } 
+    } else { 
+        ret = ""; 
+    } 
+
+console.log("-------------------------------");
+    return ret;  
+} 
+
+
 
 
 //Display infos tags in console 

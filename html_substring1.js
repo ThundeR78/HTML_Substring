@@ -1,7 +1,7 @@
     //TODO : test with arrayTags
     //TODO : fix delete others tags after end
 
-function html_substring(html, count) {
+function html_substring(html, length) {
 	//Append html text in a div element to navigate inside a tree elements
     var div = document.createElement('div');
     div.innerHTML = html;
@@ -27,18 +27,18 @@ function html_substring(html, count) {
                 read_element(node);
             } else
             	console.log('Nothing inside '+ node.tagName);
-        } while((node = node.nextSibling));// && count>0);	//Until exist next sibling
+        } while((node = node.nextSibling));// && length>0);	//Until exist next sibling
     }
 
     //Get Text inside element
     function get_textnode(elmt) {
 		//If can take others characters
-        if(count > 0) {		
+        if(length > 0) {		
         	//Substring without break specials characters
-			elmt.data = elmt.substringData(0, count);
+			elmt.data = elmt.substringData(0, length);
 
-			//Subtract length of the text data to the count total
-            count -= elmt.data.length;
+			//Subtract length of the text data to the length total
+            length -= elmt.data.length;
         } else {
         	elmt.data = '';
         }
