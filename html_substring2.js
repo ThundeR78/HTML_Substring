@@ -1,4 +1,4 @@
-//Function strip_tags
+//Parse evert character and look for tags
         
 function html_substring (html, length) {     
     // only execute if text is longer than desired length 
@@ -11,6 +11,7 @@ function html_substring (html, length) {
         var tagsArray = []; 
         var currentTag = ""; 
 
+        //Remove every HTML tags
         function strip_tags (input, allowed) {
             allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
             var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi, commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;

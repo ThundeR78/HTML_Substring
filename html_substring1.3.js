@@ -1,4 +1,7 @@
-//Try to store selection in new div
+//Try to store selection in new div "result", when length = 0, we break loop and return value of "result"
+//Avoid to remove others nodes
+
+//Difficulty : progress in div and do the same with result on the same time
 
 function html_substring(html, length) {
 	//Append html text in a div element to navigate inside a tree elements
@@ -17,6 +20,7 @@ function html_substring(html, length) {
     //Navigate in element 
 	function read_element(elmt) {
         var node = elmt.firstChild;		//Search first child
+
 	// if (length>0) {
         do {
     	//if (length>0) {

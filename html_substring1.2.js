@@ -5,8 +5,8 @@ function html_substring(html, length) {
     var div = document.createElement('div');
     div.innerHTML = html;
 
-    //Test
-    var arrayNode = [];
+    //Node array to remove
+    var arrayNodeUseless = [];
 
     //Display elements tag found
     displayTags(div.getElementsByTagName('*'));
@@ -27,6 +27,14 @@ function html_substring(html, length) {
                 } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
             		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
             		
+                    // if (length <= 0) {
+                    //     for (var i = 0; i<arrayNodeUseless.length; i++) {
+                    //         var n = arrayNodeUseless.pop();
+                    //         if (elmt.isSameNode(n.getParentNode()))  //http://stackoverflow.com/questions/3719384/why-can-i-not-remove-a-child-element-ive-just-found-not-found-err
+                    //             elmt.removeChild(n);
+                    //     }
+                    // }
+
                     read_element(node);
                 } else
                 	console.log('Nothing inside '+ node.tagName);
@@ -34,7 +42,8 @@ function html_substring(html, length) {
                 //console.log(length);
             } else {
                 console.log("BREAK");
-                arrayNode.push(node);
+
+                arrayNodeUseless.push(node);
                 // elmt.removeChild(node);
 
                 // for(var i=0; i<node.childNodes.length; i++)
@@ -43,10 +52,17 @@ function html_substring(html, length) {
                 // break;
             } 
         } while((node = node.nextSibling));// && length>0);	    //Until exist next sibling
+  
+        //Remove every tags useless
+        for (var i = 0; i<arrayNodeUseless.length; i++) {
+            var n = arrayNodeUseless.pop();
 
-        for (var i = 0; i<arrayNode.length; i++) {
-            if (elmt.isSameNode(arrayNode[i].getParentNode()))  //http://stackoverflow.com/questions/3719384/why-can-i-not-remove-a-child-element-ive-just-found-not-found-err
-                elmt.removeChild(arrayNode[i]);
+            n.parentNode.removeChild(n);
+
+            // if (n.nodeType == 1 && elmt.isSameNode(n.parentNode))  //http://stackoverflow.com/questions/3719384/why-can-i-not-remove-a-child-element-ive-just-found-not-found-err
+            //     elmt.removeChild(n);
+            // else
+            //     n.data = "";
         }
     }
 
