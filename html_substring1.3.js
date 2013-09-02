@@ -1,12 +1,12 @@
-//Try to remove others tags after end (length=0) 
+//Try to store selection in new div
 
 function html_substring(html, length) {
 	//Append html text in a div element to navigate inside a tree elements
     var div = document.createElement('div');
     div.innerHTML = html;
 
-    //Test
-    var arrayNode = [];
+    //Others div to store final html
+    var result = document.createElement('div');
 
     //Display elements tag found
     displayTags(div.getElementsByTagName('*'));
@@ -17,37 +17,26 @@ function html_substring(html, length) {
     //Navigate in element 
 	function read_element(elmt) {
         var node = elmt.firstChild;		//Search first child
-
+	// if (length>0) {
         do {
-        	if (length > 0) {
-                if(node.nodeType == 3) {	//Node is Text node
-                	console.log('Text = '+node.data);
+    	//if (length>0) {
+            if(node.nodeType == 3) {	//Node is Text node
+            	console.log('Text = '+node.data);
 
-                    get_textnode(node);
-                } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
-            		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
-            		
-                    read_element(node);
-                } else
-                	console.log('Nothing inside '+ node.tagName);
+                get_textnode(node);
+            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
+        		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
+        		
+                result.appendChild(elmt);
+                read_element(node);
+            } else
+            	console.log('Nothing inside '+ node.tagName);
 
-                //console.log(length);
-            } else {
-                console.log("BREAK");
-                arrayNode.push(node);
-                // elmt.removeChild(node);
-
-                // for(var i=0; i<node.childNodes.length; i++)
-                //     node.removeChild(node.childNodes[i]);
-                
-                // break;
-            } 
-        } while((node = node.nextSibling));// && length>0);	    //Until exist next sibling
-
-        for (var i = 0; i<arrayNode.length; i++) {
-            if (elmt.isSameNode(arrayNode[i].getParentNode()))  //http://stackoverflow.com/questions/3719384/why-can-i-not-remove-a-child-element-ive-just-found-not-found-err
-                elmt.removeChild(arrayNode[i]);
-        }
+            //console.log(length);
+        //} else
+        //	elmt.removeChild(node);
+        } while((node = node.nextSibling));// && length>0);	//Until exist next sibling
+    // }
     }
 
     //Get Text inside element
@@ -59,15 +48,16 @@ function html_substring(html, length) {
 
 			//Subtract length of the text data to the length total
             length -= elmt.data.length;
+            result.appendChild(elmt);
         } else {
         	elmt.data = '';
         	// elmt.parentNode.remove(elmt);
         	// elmt.parentNode.removeChild(elmt);
         }
-    }   
+    }
 
-    //Return the content of the div
-    return div.innerHTML;	
+    //Return the content of the new div
+    return result.innerHTML
 }
 
 
