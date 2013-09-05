@@ -13,7 +13,7 @@ function html_substring(html, length) {
 
     //Navigate in element 
 	function read_element(elmt) {
-        var node = elmt.firstChild;		//Search first child
+        var node = elmt.firstChild;		//Get first child
 
         do {
         	if (length > 0) {
@@ -74,8 +74,7 @@ function html_substring(html, length) {
             length -= elmt.data.length;
         } else {
         	elmt.data = '';
-        	// elmt.parentNode.remove(elmt);
-        	// elmt.parentNode.removeChild(elmt);
+        	// elmt.parentNode.parentNode.removeChild(elmt.parentNode);
         }
     }   
 

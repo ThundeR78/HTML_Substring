@@ -10,32 +10,35 @@ function html_substring(html, length) {
 
     //Others div to store final html
     var result = document.createElement('div');
+    var currentNodeResult = result.cloneNode(false);       //Clone node without keep child elements
 
     //Launch recursive loop (if tags exist) with the div like root element
     read_element(div);
 
     //Navigate in element 
 	function read_element(elmt) {
-        var node = elmt.firstChild;		//Search first child
+        var node = elmt.firstChild;		//Get first child
 
 	// if (length>0) {
         do {
-    	//if (length>0) {
-            if(node.nodeType == 3) {	//Node is Text node
-            	console.log('Text = '+node.data);
+    	    if (length>0) {
+                if(node.nodeType == 3) {	//Node is Text node
+                	console.log('Text = '+node.data);
 
-                get_textnode(node);
-            } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
-        		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
-        		
-                result.appendChild(elmt);
-                read_element(node);
+                    get_textnode(node);
+                } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
+            		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
+            		
+                    currentNodeResult.appendChild(node);
+                    currentNodeResult = node.cloneNode(false);
+                    // result.appendChild(elmt);
+                    read_element(node);
+                } else
+                	console.log('Nothing inside '+ node.tagName);
+
+                //console.log(length);
             } else
-            	console.log('Nothing inside '+ node.tagName);
-
-            //console.log(length);
-        //} else
-        //	elmt.removeChild(node);
+                return;
         } while((node = node.nextSibling));// && length>0);	//Until not exist next sibling
     // }
     }
@@ -49,16 +52,17 @@ function html_substring(html, length) {
 
 			//Subtract length of the text data to the length total
             length -= elmt.data.length;
-            result.appendChild(elmt);
+
+            currentNodeResult.appendChild(elmt);
+            // result.appendChild(elmt);
         } else {
         	elmt.data = '';
-        	// elmt.parentNode.remove(elmt);
-        	// elmt.parentNode.removeChild(elmt);
+        	// elmt.parentNode.parentNode.removeChild(elmt.parentNode);
         }
     }
 
     //Return the content of the new div
-    return result.innerHTML
+    return result.innerHTML;
 }
 
 

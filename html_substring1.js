@@ -13,7 +13,7 @@ function html_substring(html, length) {
 
     //Navigate in element 
 	function read_element(elmt) {
-        var node = elmt.firstChild;		//Search first child
+        var node = elmt.firstChild;		//Get first child
 
         do {
             if(node.nodeType == 3) {	//Node is Text node
@@ -39,16 +39,13 @@ function html_substring(html, length) {
 			//Subtract length of the text data to the length total
             length -= elmt.data.length;
         } else {
-        	elmt.data = '';
+            elmt.data = '';
         }
     }
 
     //Return the content of the div
     return div.innerHTML;	
 }
-
-
-
 
 
 /*
