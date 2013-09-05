@@ -1,3 +1,5 @@
+//Works and optimized
+
 //Try to remove others tags after end (length=0) 
 
 function html_substring(html, length) {
@@ -16,7 +18,7 @@ function html_substring(html, length) {
         var node = elmt.firstChild;		//Get first child
 
         do {
-        	if (length > 0) {
+        	// if (length > 0) {
                 if(node.nodeType == 3) {	//Node is Text node
                 	console.log('Text = '+node.data);
 
@@ -24,33 +26,23 @@ function html_substring(html, length) {
                 } else if(node.nodeType == 1 && node.childNodes && node.childNodes[0]) { //&& length>0	//Node is Element node & Child nodes exist & First node child exist
             		console.log('Node = '+ node.tagName+' : '+ node.innerHTML);
             		
-                    // if (length <= 0) {
-                    //     for (var i = 0; i<arrayNodeUseless.length; i++) {
-                    //         var n = arrayNodeUseless.pop();
-                    //         if (elmt.isSameNode(n.getParentNode()))  //http://stackoverflow.com/questions/3719384/why-can-i-not-remove-a-child-element-ive-just-found-not-found-err
-                    //             elmt.removeChild(n);
-                    //     }
-                    // }
-
-                    read_element(node);
+                    //If end to get text, we add others node after on an array to remove it later, else continue to read element
+                    if (length <= 0) 
+                        arrayNodeUseless.push(node);
+                    else
+                        read_element(node);
                 } else
                 	console.log('Nothing inside '+ node.tagName);
 
-                //console.log(length);
-            } else {
-                console.log("BREAK");
-
-                arrayNodeUseless.push(node);
-                // elmt.removeChild(node);
-
-                // for(var i=0; i<node.childNodes.length; i++)
-                //     node.removeChild(node.childNodes[i]);
-                
-                // break;
-            } 
+            // } else 
+            //     arrayNodeUseless.push(node);
         } while((node = node.nextSibling));// && length>0);	    //Until not exist next sibling
   
-        //Remove every useless tags 
+        removeNodeUseless();
+    }
+
+    //Remove every useless tags after end
+    function removeNodeUseless() {
         for (var i = 0; i<arrayNodeUseless.length; i++) {
             var n = arrayNodeUseless.pop();
 
