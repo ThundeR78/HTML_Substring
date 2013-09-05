@@ -8,9 +8,6 @@ function html_substring(html, length) {
     //Node array to remove
     var arrayNodeUseless = [];
 
-    //Display elements tag found
-    displayTags(div.getElementsByTagName('*'));
-
     //Launch recursive loop (if tags exist) with the div like root element
     read_element(div);
 
@@ -51,9 +48,9 @@ function html_substring(html, length) {
                 
                 // break;
             } 
-        } while((node = node.nextSibling));// && length>0);	    //Until exist next sibling
+        } while((node = node.nextSibling));// && length>0);	    //Until not exist next sibling
   
-        //Remove every tags useless
+        //Remove every useless tags 
         for (var i = 0; i<arrayNodeUseless.length; i++) {
             var n = arrayNodeUseless.pop();
 
@@ -70,7 +67,7 @@ function html_substring(html, length) {
     function get_textnode(elmt) {
 		//If can take others characters
         if(length > 0) {		
-        	//Substring without break specials characters
+        	//Substring without break special characters
 			elmt.data = elmt.substringData(0, length);
 
 			//Subtract length of the text data to the length total
@@ -86,19 +83,6 @@ function html_substring(html, length) {
     return div.innerHTML;	
 }
 
-
-//Display infos tags in console 
-function displayTags (elementsTag) {
-    if (elementsTag.length > 1) {
-    	var infosTags = '';
-    	for (var i = 0; i<elementsTag.length; i++)
-    		infosTags += elementsTag[i].tagName+' ';
-    	console.log(elementsTag.length+'tags : '+ infosTags);
-    } else if (elementsTag.length == 1) {
-    	console.log(elementsTag.length+'tag : '+ elementsTag[0].tagName);
-    } else 
-    	console.log(elementsTag.length+'tag');
-}
 
 
 /*Link help :

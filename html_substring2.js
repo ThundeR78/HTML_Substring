@@ -1,4 +1,4 @@
-//Parse evert character and look for tags
+//Parse every character and look for tags
         
 function html_substring (html, length) {     
     // only execute if text is longer than desired length 
@@ -104,25 +104,9 @@ function html_substring (html, length) {
         ret = ""; 
     } 
 
-console.log("-------------------------------");
     return ret;  
 } 
 
-
-
-
-//Display infos tags in console 
-function displayTags (elementsTag) {
-    if (elementsTag.length > 1) {
-    	var infosTags = '';
-    	for (var i = 0; i<elementsTag.length; i++)
-    		infosTags += elementsTag[i].tagName+' ';
-    	console.log(elementsTag.length+'tags : '+ infosTags);
-    } else if (elementsTag.length == 1) {
-    	console.log(elementsTag.length+'tag : '+ elementsTag[0].tagName);
-    } else 
-    	console.log(elementsTag.length+'tag');
-}
 
 
 /*Link help :

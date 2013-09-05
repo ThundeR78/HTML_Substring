@@ -1,4 +1,4 @@
- //Works but not optimized
+ //Works but not enough optimized
 
     //TODO : test with arrayTags
     //TODO : fix delete others tags after end
@@ -7,9 +7,6 @@ function html_substring(html, length) {
 	//Append html text in a div element to navigate inside a tree elements
     var div = document.createElement('div');
     div.innerHTML = html;
-
-    //Display elements tag found
-    displayTags(div.getElementsByTagName('*'));
 
     //Launch recursive loop (if tags exist) with the div like root element
     read_element(div);
@@ -29,14 +26,14 @@ function html_substring(html, length) {
                 read_element(node);
             } else
             	console.log('Nothing inside '+ node.tagName);
-        } while((node = node.nextSibling));// && length>0);	//Until exist next sibling
+        } while((node = node.nextSibling));	    //Until not exist next sibling
     }
 
     //Get Text inside element
     function get_textnode(elmt) {
 		//If can take others characters
         if(length > 0) {		
-        	//Substring without break specials characters
+        	//Substring without break special characters
 			elmt.data = elmt.substringData(0, length);
 
 			//Subtract length of the text data to the length total
@@ -51,18 +48,7 @@ function html_substring(html, length) {
 }
 
 
-//Display infos tags in console 
-function displayTags (elementsTag) {
-    if (elementsTag.length > 1) {
-    	var infosTags = '';
-    	for (var i = 0; i<elementsTag.length; i++)
-    		infosTags += elementsTag[i].tagName+' ';
-    	console.log(elementsTag.length+'tags : '+ infosTags);
-    } else if (elementsTag.length == 1) {
-    	console.log(elementsTag.length+'tag : '+ elementsTag[0].tagName);
-    } else 
-    	console.log(elementsTag.length+'tag');
-}
+
 
 
 /*

@@ -11,9 +11,6 @@ function html_substring(html, length) {
     //Others div to store final html
     var result = document.createElement('div');
 
-    //Display elements tag found
-    displayTags(div.getElementsByTagName('*'));
-
     //Launch recursive loop (if tags exist) with the div like root element
     read_element(div);
 
@@ -39,7 +36,7 @@ function html_substring(html, length) {
             //console.log(length);
         //} else
         //	elmt.removeChild(node);
-        } while((node = node.nextSibling));// && length>0);	//Until exist next sibling
+        } while((node = node.nextSibling));// && length>0);	//Until not exist next sibling
     // }
     }
 
@@ -64,19 +61,6 @@ function html_substring(html, length) {
     return result.innerHTML
 }
 
-
-//Display infos tags in console 
-function displayTags (elementsTag) {
-    if (elementsTag.length > 1) {
-    	var infosTags = '';
-    	for (var i = 0; i<elementsTag.length; i++)
-    		infosTags += elementsTag[i].tagName+' ';
-    	console.log(elementsTag.length+'tags : '+ infosTags);
-    } else if (elementsTag.length == 1) {
-    	console.log(elementsTag.length+'tag : '+ elementsTag[0].tagName);
-    } else 
-    	console.log(elementsTag.length+'tag');
-}
 
 
 /*Link help :
